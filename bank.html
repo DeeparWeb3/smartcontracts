@@ -1,0 +1,80 @@
+<html>
+<body>
+ <div>
+    <input type="text" id ="amount">
+    <p id='balance'></p>
+    <button id='deposit'>Deposit</button>
+    <button id='withdraw'>Withdraw</button>
+ </div>
+
+ <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+ <script
+ src="https://code.jquery.com/jquery-3.6.3.slim.min.js"
+ integrity="sha256-ZwqZIVdD3iXNyGHbSYdsmWP//UBokj2FHAxKuSBKDSo="
+ crossorigin="anonymous"></script>
+ 
+ <script>
+
+    var smartcontract;
+
+    $(document).ready(function()
+    {
+       web3= new Web3(window.ethereum);
+        console.log("Metamask connected");
+        var address = "0x87c7184b9405792377Da7df25b32d9d6689A5F4F";
+        var abi = [[
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "amount",
+				"type": "int256"
+			}
+		],
+		"name": "deposit",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getBalance",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "amount",
+				"type": "int256"
+			}
+		],
+		"name": "withdraw",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]];
+        smartcontract = new web3.eth.Contract(abi, address);
+        smartcontract.methods.getBalance().call().then(function(balance){
+            $('#balance').html(balance);
+        })
+      })
+        
+
+ </script>
+</body>
+</html>
